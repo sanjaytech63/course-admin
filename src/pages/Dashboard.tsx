@@ -1,0 +1,90 @@
+import React from 'react';
+import { FiUsers, FiBook, FiFileText, FiDollarSign } from 'react-icons/fi';
+import { StatsCard } from '../components/dashboard/StatsCard';
+import { RecentActivity } from '../components/dashboard/RecentActivity';
+import { Card } from '../components/ui/Card';
+import { useFetch } from '../hooks/useFetch';
+
+export const Dashboard: React.FC = () => {
+    const { users, } = useFetch();
+    const userCount = users.length;
+
+    const stats = [
+        {
+            title: 'Users',
+            value: userCount,
+            icon: <FiUsers size={24} />,
+            trend: { value: 12, isPositive: true }
+        },
+        {
+            title: 'Courses',
+            value: '156',
+            icon: <FiBook size={24} />,
+            trend: { value: 8, isPositive: true }
+        },
+        {
+            title: 'Blogs',
+            value: '324',
+            icon: <FiFileText size={24} />,
+            trend: { value: 5, isPositive: true }
+        },
+        {
+            title: 'Revenue',
+            value: '$45,289',
+            icon: <FiDollarSign size={24} />,
+            trend: { value: 15, isPositive: true }
+        },
+    ];
+
+    return (
+        <div className="space-y-6">
+            {/* <div>
+                <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+                <p className="text-gray-600">Welcome to your course admin dashboard</p>
+            </div> */}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stats.map((stat, index) => (
+                    <StatsCard
+                        key={index}
+                        title={stat.title}
+                        value={stat.value}
+                        icon={stat.icon}
+                        trend={stat.trend}
+                    />
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card title='Revenue Overview' padding='lg'>
+                    <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <p className="text-gray-500">Chart will be implemented with Recharts</p>
+                    </div>
+                </Card>
+
+                <RecentActivity />
+            </div>
+
+            <Card title='Quick Actions' padding='lg'>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button className="p-4 bg-primary-50 rounded-lg text-primary-700 hover:bg-primary-100 transition-colors text-center">
+                        <FiUsers className="mx-auto mb-2" size={24} />
+                        <span className="text-sm font-medium">Add User</span>
+                    </button>
+                    <button className="p-4 bg-green-50 rounded-lg text-green-700 hover:bg-green-100 transition-colors text-center">
+                        <FiBook className="mx-auto mb-2" size={24} />
+                        <span className="text-sm font-medium">Create Course</span>
+                    </button>
+                    <button className="p-4 bg-blue-50 rounded-lg text-blue-700 hover:bg-blue-100 transition-colors text-center">
+                        <FiFileText className="mx-auto mb-2" size={24} />
+                        <span className="text-sm font-medium">Write Blog</span>
+                    </button>
+                    <button className="p-4 bg-purple-50 rounded-lg text-purple-700 hover:bg-purple-100 transition-colors text-center">
+                        <FiDollarSign className="mx-auto mb-2" size={24} />
+                        <span className="text-sm font-medium">View Reports</span>
+                    </button>
+                </div>
+            </Card>
+        </div>
+    );
+};
