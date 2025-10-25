@@ -63,7 +63,6 @@ export interface SidebarState {
 
 export interface ModalState {
   isOpen: boolean;
-  type: 'create' | 'edit' | 'delete' | null;
   data: any;
   openModal: (type: 'create' | 'edit' | 'delete', data?: any) => void;
   closeModal: () => void;
@@ -76,6 +75,7 @@ export interface AppState extends SidebarState, ModalState {
   addCourse: (course: Course) => void;
   updateCourse: (id: string, course: Partial<Course>) => void;
   deleteCourse: (id: string) => void;
+  type: any;
 
   blogs: Blog[];
   setBlogs: (blogs: Blog[]) => void;

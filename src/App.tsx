@@ -13,6 +13,7 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import Layout from './components/layout/Layout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NetworkStatusBanner from './components/ui/NetworkStatusBanner';
 const mockCourses: Course[] = [
   { id: '1', title: 'React Masterclass', description: 'Learn React from scratch', instructor: 'John Doe', category: 'Web Development', price: 99, thumbnail: '/api/placeholder/120/80', status: 'published', students: 1245, rating: 4.8, createdAt: '2023-01-15' },
   { id: '2', title: 'JavaScript Fundamentals', description: 'Master JavaScript basics', instructor: 'Sarah Smith', category: 'Web Development', price: 79, thumbnail: '/api/placeholder/120/80', status: 'published', students: 892, rating: 4.6, createdAt: '2023-02-20' },
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <>
+      {/* Route */}
       <Router>
         <Routes>
           {/* Auth Routes - Without Layout */}
@@ -59,7 +61,12 @@ function App() {
           </Route>
         </Routes>
       </Router>
+
+      {/* Toast */}
       <ToastContainer position="top-right" autoClose={3000} closeOnClick pauseOnFocusLoss />
+
+      {/* NetworkStatusBanner */}
+      <NetworkStatusBanner />
     </>
   );
 }

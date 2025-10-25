@@ -4,12 +4,17 @@ import { StatsCard } from '../components/dashboard/StatsCard';
 import { RecentActivity } from '../components/dashboard/RecentActivity';
 import { Card } from '../components/ui/Card';
 import { useFetch } from '../hooks/useFetch';
+import { BlogStats } from '../components/ui/BlogStats';
+import { useBlogStats } from '../hooks/useBlogStats';
 
 export const Dashboard: React.FC = () => {
     const { users, } = useFetch();
-    const userCount = users.length;
+    const { stats } = useBlogStats();
 
-    const stats = [
+    const userCount = users.length;
+    const blogCount = stats?.overview.totalBlogs
+
+    const statsItem = [
         {
             title: 'Users',
             value: userCount,
@@ -24,7 +29,7 @@ export const Dashboard: React.FC = () => {
         },
         {
             title: 'Blogs',
-            value: '324',
+            value: blogCount,
             icon: <FiFileText size={24} />,
             trend: { value: 5, isPositive: true }
         },
@@ -44,7 +49,7 @@ export const Dashboard: React.FC = () => {
             </div> */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat, index) => (
+                {statsItem.map((stat, index) => (
                     <StatsCard
                         key={index}
                         title={stat.title}
@@ -64,6 +69,8 @@ export const Dashboard: React.FC = () => {
 
                 <RecentActivity />
             </div>
+
+            <BlogStats />
 
             <Card title='Quick Actions' padding='lg'>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

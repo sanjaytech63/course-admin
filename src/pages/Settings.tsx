@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import InputField from '../components/ui/InputField';
+import Profile from '../components/ui/Profile';
+import ChangePassword from '../components/ui/ChangePassword';
 
 export const Settings: React.FC = () => {
     return (
@@ -13,48 +13,8 @@ export const Settings: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 space-y-6">
-                    <Card
-                        title="Profile Settings"
-                        padding="lg"
-                    >
-                        <div className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <InputField label="First Name" placeholder="John" />
-                                <InputField label="Last Name" placeholder="Doe" />
-                            </div>
-                            <InputField label="Email" type="email" placeholder="john@example.com" />
-                            <InputField label="Phone" placeholder="+1 (555) 123-4567" />
-                            <div className="flex justify-end">
-                                <Button>Update Profile</Button>
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card
-                        title="Security"
-                        padding="lg"
-                    >
-                        <div className="space-y-4">
-                            <InputField
-                                label="Current Password"
-                                type="password"
-                                placeholder="Enter current password"
-                            />
-                            <InputField
-                                label="New Password"
-                                type="password"
-                                placeholder="Enter new password"
-                            />
-                            <InputField
-                                label="Confirm New Password"
-                                type="password"
-                                placeholder="Confirm new password"
-                            />
-                            <div className="flex justify-end">
-                                <Button>Update Password</Button>
-                            </div>
-                        </div>
-                    </Card>
+                    <Profile />
+                    <ChangePassword />
                 </div>
 
                 <div className="space-y-6">

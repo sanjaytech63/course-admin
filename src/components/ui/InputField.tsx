@@ -14,16 +14,16 @@ import { MdFileUpload } from 'react-icons/md';
 
 export interface InputProps {
   type?:
-    | 'text'
-    | 'email'
-    | 'password'
-    | 'number'
-    | 'tel'
-    | 'url'
-    | 'search'
-    | 'date'
-    | 'file'
-    | 'credit-card';
+  | 'text'
+  | 'email'
+  | 'password'
+  | 'number'
+  | 'tel'
+  | 'url'
+  | 'search'
+  | 'date'
+  | 'file'
+  | 'credit-card';
   placeholder?: string;
   value?: string;
   onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -39,6 +39,7 @@ export interface InputProps {
   icon?: React.ReactNode;
   variant?: 'default' | 'filled' | 'outlined';
   size?: 'sm' | 'md' | 'lg';
+  handleFileChange?: () => void
 }
 
 const InputField: React.FC<InputProps> = ({

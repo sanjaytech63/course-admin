@@ -12,6 +12,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@heroui/react": "^2.8.5",
     "axios": "^1.12.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,65 +1,377 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { ZodError } from 'zod';
+import { validateImage } from '../validations/news.validator';
 import { useStore } from '../store/store';
 import Button from '../components/ui/Button';
+import { useSearchParams } from 'react-router-dom';
 import InputField from '../components/ui/InputField';
+import SelectField from '../components/ui/SelectField';
 import BlogGrid from '../components/ui/BlogGrid';
 import BlogFormModal from '../components/ui/BlogFormModal';
 import DeleteModal from '../components/ui/DeleteModal';
+import BlogViewModal from '../components/ui/BlogViewModa';
+import { createBlog, deleteBlogById, updateBlog } from '../api/blogService';
+import { handleError, handleSuccess } from '../utils/toastHandler';
+import { useFetchBlogs } from '../hooks/useFetchBlogs';
+import { BlogFilters, BlogFormData } from '../types/blog.types';
+import { categoryOptions, itemsPerPageOptions, badgeOptions, getCategoryLabel } from '../constants/index';
+import PaginationWrapper from '../components/ui/PaginationWrapper';
 
 export const Blogs: React.FC = () => {
-    const { blogs, openModal, closeModal, deleteBlog, isOpen, type, data } = useStore();
-    const [searchTerm, setSearchTerm] = useState('');
+    const [formData, setFormData] = useState<BlogFormData>({
+        title: '',
+        description: '',
+        author: '',
+        category: '',
+        readTime: '',
+        badge: '',
+        image: ''
+    });
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [selectedBlog, setSelectedBlog] = useState<any>(null);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [loading, setLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
-    const filteredBlogs = blogs.filter(
-        blog =>
-            blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            blog.author.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = parseInt(searchParams.get('page') ?? '1');
+    const limit = parseInt(searchParams.get('limit') ?? '9');
+    const search = searchParams.get('search') || '';
+    const category = searchParams.get('category') || '';
+
+    const initialFilters = useMemo(() => ({
+        page,
+        limit,
+        search,
+        category: category || undefined
+    }), []);
+
+    const {
+        blogsData,
+        blogLoading,
+        fetchErrors,
+        refetch,
+        pagination,
+        filters,
+        setFilters
+    } = useFetchBlogs(initialFilters);
+
+    const { openModal, closeModal, isOpen, type, data } = useStore();
+
+    const updateURLParams = (updates: Record<string, any>) => {
+        const newParams = new URLSearchParams(searchParams);
+
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value === '' || value === null || value === undefined || value === 'all') {
+                newParams.delete(key);
+            } else {
+                newParams.set(key, value.toString());
+            }
+        });
+
+        setSearchParams(newParams);
+    };
+
+    useEffect(() => {
+        updateURLParams({
+            page: filters.page,
+            limit: filters.limit,
+            search: filters.search,
+            category: filters.category
+        });
+    }, [filters.page, filters.limit, filters.search, filters.category]);
+
+    const handleSearch = (value: string) => {
+        setFilters((prev: BlogFilters) => ({
+            ...prev,
+            page: 1,
+            search: value
+        }));
+    };
+
+    const handleCategoryFilter = (value: string) => {
+        setFilters((prev: BlogFilters) => ({
+            ...prev,
+            page: 1,
+            category: value || undefined
+        }));
+    };
+
+    const handleItemsPerPageChange = (newLimit: string) => {
+        setFilters((prev: BlogFilters) => ({
+            ...prev,
+            page: 1,
+            limit: parseInt(newLimit)
+        }));
+    };
+
+    const handlePageChange = (newPage: number) => {
+        setFilters((prev: BlogFilters) => ({
+            ...prev,
+            page: newPage
+        }));
+    };
+
+    const handleRefresh = () => {
+        setFilters({
+            page: 1,
+            limit: 9,
+            search: '',
+            category: undefined
+        });
+        setSearchParams({});
+    };
+
+    const handleViewBlog = (blog: any) => {
+        setSelectedBlog(blog);
+    };
+
+    const handleCloseView = () => {
+        setSelectedBlog(null);
+    };
+
+    const handleChange = (field: string) => (value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+    };
+
+    const handleSelectChange = (field: string, value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+    };
+
+    const handleFileChange = (file: File | null) => {
+        setImageFile(file);
+        if (file) {
+            setFormData(prev => ({ ...prev, image: file.name }));
+            setErrors(prev => ({ ...prev, image: '' }));
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            if (type === 'create' && !imageFile) {
+                setErrors(prev => ({ ...prev, image: 'Image is required' }));
+                setLoading(false);
+                return;
+            }
+
+            if (imageFile) {
+                const imageError = validateImage(imageFile);
+                if (imageError) {
+                    setErrors(prev => ({ ...prev, image: imageError }));
+                    setLoading(false);
+                    return;
+                }
+            }
+
+            const submitData = new FormData();
+            submitData.append('title', formData.title);
+            submitData.append('description', formData.description);
+            submitData.append('author', formData.author);
+            submitData.append('category', formData.category);
+            submitData.append('readTime', formData.readTime);
+
+            if (formData.badge) {
+                submitData.append('badge', formData.badge);
+            }
+
+            if (imageFile) {
+                submitData.append('image', imageFile);
+            }
+
+            let response;
+            if (type === 'create') {
+                response = await createBlog(submitData);
+                handleSuccess(response.message || 'Blog created successfully');
+            } else if (type === 'edit' && data?._id) {
+                response = await updateBlog(data._id, submitData);
+                handleSuccess(response.message || 'Blog updated successfully');
+            }
+
+            await refetch();
+            resetForm();
+            closeModal();
+
+        } catch (err: any) {
+            if (err instanceof ZodError) {
+                const fieldErrors: Record<string, string> = {};
+                err.issues.forEach((issue) => {
+                    if (issue.path[0]) {
+                        fieldErrors[issue.path[0].toString()] = issue.message;
+                    }
+                });
+                setErrors(fieldErrors);
+            } else {
+                const errorMessage = err?.response?.data?.message || 'Failed to process blog';
+                handleError(errorMessage);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!data?._id) {
+            handleError('No blog selected for deletion');
+            return;
+        }
+
+        try {
+            setDeleteLoading(true);
+            const res = await deleteBlogById(data._id);
+            handleSuccess(res.message || 'Blog deleted successfully');
+            await refetch();
+            closeModal();
+        } catch (err: any) {
+            console.error('Delete error:', err);
+            handleError(err.response?.data?.message || 'Failed to delete blog');
+        } finally {
+            setDeleteLoading(false);
+        }
+    };
+
+    const resetForm = () => {
+        setFormData({
+            title: '',
+            description: '',
+            author: '',
+            category: '',
+            readTime: '',
+            badge: '',
+            image: ''
+        });
+        setImageFile(null);
+        setErrors({});
+    };
+
+    useEffect(() => {
+        if (type === 'edit' && data) {
+            setFormData({
+                title: data.title || '',
+                description: data.description || '',
+                author: data.author || '',
+                category: data.category || '',
+                readTime: data.readTime || '',
+                badge: data.badge || '',
+                image: data.image || ''
+            });
+            setImageFile(null);
+        } else if (type === 'create') {
+            resetForm();
+        }
+    }, [type, isOpen, data]);
 
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Blogs</h1>
-                    <p className="text-gray-600">Manage platform blogs</p>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Blog Management</h1>
+                    <p className="text-gray-600 dark:text-gray-400">
+                        {pagination ? `Total ${pagination.totalItems} blogs` : 'Manage platform blogs'}
+                        {filters.category && ` in ${getCategoryLabel(filters.category)}`}
+                        {filters.search && ` matching "${filters.search}"`}
+                    </p>
                 </div>
-                <Button onClick={() => openModal('create')}>Write Blog</Button>
+                <Button onClick={() => openModal('create')}>
+                    Write New Blog
+                </Button>
             </div>
 
-            <InputField
-                placeholder="Search blogs..."
-                value={searchTerm}
-                onChange={(value) => setSearchTerm(value)}
-                className="sm:max-w-xs"
-            />
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 w-full">
+                <div className='flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center w-full lg:w-auto'>
+                    <div className="w-full sm:w-auto">
+                        <InputField
+                            placeholder="Search blogs by title, author, category, or tags..."
+                            value={filters.search || ''}
+                            onChange={handleSearch}
+                            className="w-full sm:w-96"
+                            label="Search blogs"
+                        />
+                    </div>
+
+                    <div className="w-full sm:w-auto">
+                        <SelectField
+                            value={filters.category || ''}
+                            onChange={handleCategoryFilter}
+                            options={[{ value: '', label: 'All Categories' }, ...categoryOptions]}
+                            className="w-full sm:w-64"
+                            label="All Categories"
+                        />
+                    </div>
+
+                    <div className="w-full sm:w-auto">
+                        <SelectField
+                            value={filters.limit?.toString() || '9'}
+                            onChange={handleItemsPerPageChange}
+                            options={itemsPerPageOptions}
+                            className="w-full sm:w-64"
+                            label="Items per page"
+                        />
+                    </div>
+                </div>
+                <Button variant='outline' onClick={handleRefresh}>
+                    <div className='flex items-center gap-2'>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span>Clear Filters</span>
+                    </div>
+                </Button>
+            </div>
 
             <BlogGrid
-                blogs={filteredBlogs}
+                blogs={blogsData}
+                loading={blogLoading}
+                error={fetchErrors}
+                onRetry={refetch}
                 onEdit={(blog) => openModal('edit', blog)}
                 onDelete={(blog) => openModal('delete', blog)}
+                onView={handleViewBlog}
             />
 
-            {['create', 'edit',].includes(type) && (
-                <BlogFormModal
-                    isOpen={isOpen}
-                    type={type as 'create' | 'edit'}
-                    data={data}
-                    onClose={closeModal}
-                    onSubmit={(form) => console.log('Submit blog', form)}
-                />
-            )}
+            <PaginationWrapper
+                pagination={pagination}
+                handlePageChange={handlePageChange}
+                loading={blogLoading}
+            />
 
-            {type === 'delete' && (
-                <DeleteModal
-                    isOpen={isOpen}
-                    itemName={data?.title || ''}
-                    onClose={closeModal}
-                    onDelete={() => {
-                        deleteBlog(data.id);
-                        closeModal();
-                    }}
-                />
-            )}
+            <BlogFormModal
+                isOpen={isOpen && ['create', 'edit'].includes(type)}
+                type={type as 'create' | 'edit'}
+                data={data}
+                loading={loading}
+                formData={formData}
+                errors={errors}
+                onClose={closeModal}
+                onChange={handleChange}
+                onSelectChange={handleSelectChange}
+                onFileChange={handleFileChange}
+                onSubmit={handleSubmit}
+                categoryOptions={categoryOptions}
+                badgeOptions={badgeOptions}
+            />
+
+            <DeleteModal
+                isOpen={isOpen && type === 'delete'}
+                isLoading={deleteLoading}
+                itemName={data?.title || 'this blog'}
+                onClose={closeModal}
+                onDelete={handleDelete}
+            />
+
+            <BlogViewModal
+                blog={selectedBlog}
+                isOpen={!!selectedBlog}
+                onClose={handleCloseView}
+            />
         </div>
     );
 };

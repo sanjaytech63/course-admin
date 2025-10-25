@@ -5,6 +5,7 @@ import { FiBell, FiMenu } from 'react-icons/fi';
 import InputField from '../ui/InputField';
 import Avatar from '../ui/Avatar';
 import { useAuth } from '../../hooks/useAuth';
+import Logo from '../ui/Logo';
 
 export const Navbar: React.FC = () => {
     const { isAuthenticated, user, handleLogout } = useAuth();
@@ -23,10 +24,7 @@ export const Navbar: React.FC = () => {
                     </div>
 
                     <div className="relative hidden md:block">
-                        <InputField
-                            type="search"
-                            placeholder="Search..."
-                        />
+                        <Logo />
                     </div>
                 </div>
 
