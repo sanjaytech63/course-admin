@@ -1,6 +1,8 @@
 import React from 'react';
 import { useBlogStats } from '../../hooks/useBlogStats';
 import { getCategoryLabel } from '../../constants';
+import { ErrorState } from './ErrorState';
+import { EmptyState } from './EmptyState';
 export const BlogStats: React.FC = () => {
     const { stats, loading, error, refetch } = useBlogStats();
 
@@ -21,22 +23,19 @@ export const BlogStats: React.FC = () => {
 
     if (error) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div className="text-center text-red-600">
-                    <p>Failed to load statistics</p>
-                    <button
-                        onClick={refetch}
-                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    >
-                        Retry
-                    </button>
-                </div>
-            </div>
+            <ErrorState
+                onRetry={refetch}
+                error={error}
+            />
         );
     }
 
     if (!stats) {
-        return null;
+        return (
+            <EmptyState
+                title="No stats found"
+            />
+        );
     }
 
     return (

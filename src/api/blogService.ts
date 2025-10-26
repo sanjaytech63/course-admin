@@ -1,7 +1,8 @@
 import api from './axiosInstance';
-import { Blog, PaginatedResponse, BlogFilters, CreateBlogData } from '../types/blog.types';
+import { BlogFilters } from '../types/blog.types';
+import { Blog } from '../types';
 
-export const getBlogs = async (filters: BlogFilters = {}): Promise<PaginatedResponse<Blog>> => {
+export const getBlogs = async (filters: BlogFilters = {}): Promise<any> => {
   const params = new URLSearchParams();
 
   if (filters.page) params.append('page', filters.page.toString());
@@ -24,7 +25,7 @@ export const createBlog = async (formData: FormData): Promise<{ data: Blog; mess
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-    timeout: 30000, 
+    timeout: 30000,
   });
   return response.data;
 };
