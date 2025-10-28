@@ -14,6 +14,7 @@ import {
 import Logo from '../ui/Logo';
 import Button from '../ui/Button';
 import { useAuth } from '../../hooks/useAuth';
+import { MdOutlineUnsubscribe } from 'react-icons/md';
 
 const menuItems = [
     { icon: FiHome, label: 'Dashboard', path: '/' },
@@ -21,6 +22,7 @@ const menuItems = [
     { icon: FiBook, label: 'Courses', path: '/courses' },
     { icon: FiFileText, label: 'Blogs', path: '/blogs' },
     { icon: FiSettings, label: 'Settings', path: '/settings' },
+    { icon: MdOutlineUnsubscribe, label: 'Subscribers', path: '/SubscribersManagement' },
 ];
 
 export const Sidebar: React.FC = () => {

@@ -31,7 +31,7 @@ const BlogViewModal: React.FC<BlogViewModalProps> = ({ blog, isOpen, onClose }) 
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title='Blog Details' size='lg'>
-            <div className="max-h-[85vh] overflow-y-auto">
+            <div className="max-h-[75vh] overflow-y-auto">
 
                 <div className="relative mb-6 rounded-xl overflow-hidden">
                     <img

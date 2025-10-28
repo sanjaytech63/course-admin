@@ -1,6 +1,8 @@
 import Pagination from "./Pagination"
 
 const PaginationWrapper = ({ pagination, handlePageChange, blogLoading }: any) => {
+  // console.log(pagination);
+  
   return (
     <div className="flex flex-col lg:flex-row justify-between items-center gap-4 lg:gap-6 w-full pt-6">
       <div className='w-full lg:w-auto flex justify-center lg:justify-start'>

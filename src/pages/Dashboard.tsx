@@ -6,13 +6,19 @@ import { Card } from '../components/ui/Card';
 import { useFetch } from '../hooks/useFetch';
 import { BlogStats } from '../components/ui/BlogStats';
 import { useBlogStats } from '../hooks/useBlogStats';
+import { CourseStats } from '../components/ui/CourseStats';
+import { useCourseStats } from '../hooks/useCourseStats';
 
 export const Dashboard: React.FC = () => {
     const { users, } = useFetch();
     const { stats } = useBlogStats();
+    const { stats: coursestats } = useCourseStats();
 
-    const userCount = users.length;
-    const blogCount = stats?.overview.totalBlogs
+
+    const userCount = users?.length;
+    const blogCount = stats?.overview?.totalBlogs
+    const crouseCount = coursestats?.overview?.totalCourses
+    const totalRevenue = coursestats?.overview?.totalRevenue
 
     const statsItem = [
         {
@@ -23,7 +29,7 @@ export const Dashboard: React.FC = () => {
         },
         {
             title: 'Courses',
-            value: '156',
+            value: crouseCount,
             icon: <FiBook size={24} />,
             trend: { value: 8, isPositive: true }
         },
@@ -35,7 +41,7 @@ export const Dashboard: React.FC = () => {
         },
         {
             title: 'Revenue',
-            value: '$45,289',
+            value: totalRevenue,
             icon: <FiDollarSign size={24} />,
             trend: { value: 15, isPositive: true }
         },
@@ -71,6 +77,8 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <BlogStats />
+
+            <CourseStats />
 
             <Card title='Quick Actions' padding='lg'>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

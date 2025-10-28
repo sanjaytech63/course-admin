@@ -40,3 +40,14 @@ export const getCategoryColor = (category: string) => {
     };
     return colors[category as keyof typeof colors] || 'bg-gray-50 text-gray-700 border-gray-200';
 };
+
+
+
+export const getLevelColor = (category: string) => {
+    const colors = {
+        beginner: 'bg-blue-50 text-blue-700 border-blue-200',
+        intermediate: 'bg-green-50 text-green-700 border-green-200',
+        advanced: 'bg-purple-50 text-purple-700 border-purple-200',
+    };
+    return colors[category as keyof typeof colors] || 'bg-gray-50 text-gray-700 border-gray-200';
+};

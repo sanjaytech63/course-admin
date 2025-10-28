@@ -15,11 +15,6 @@ export const badgeOptions = [
     { value: 'popular', label: '⭐ Popular' },
     { value: 'featured', label: '🌟 Featured' },
     { value: 'recommended', label: '👍 Recommended' },
-    { value: 'advanced', label: '🚀 Advanced' },
-    { value: 'beginner', label: '🎯 Beginner Friendly' },
-    { value: 'exclusive', label: '💎 Exclusive' },
-    { value: 'updated', label: '🔄 Recently Updated' },
-    { value: 'limited', label: '⏳ Limited Time' },
 ];
 
 export const itemsPerPageOptions = [
@@ -38,4 +33,15 @@ export const getCategoryLabel = (value: string): string => {
 export const getBadgeLabel = (value: string): string => {
     const badge = badgeOptions.find(opt => opt.value === value);
     return badge ? badge.label : value;
+};
+
+export const levelOptions = [
+    { value: 'beginner', label: 'Beginner' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
+];
+
+export const getLevelLabel = (value: string): string => {
+    const level = levelOptions.find(opt => opt.value === value);
+    return level?.label || value;
 };

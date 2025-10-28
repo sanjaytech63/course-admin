@@ -16,6 +16,7 @@ import { useFetchBlogs } from '../hooks/useFetchBlogs';
 import { BlogFilters, BlogFormData } from '../types/blog.types';
 import { categoryOptions, itemsPerPageOptions, badgeOptions, getCategoryLabel } from '../constants/index';
 import PaginationWrapper from '../components/ui/PaginationWrapper';
+import { FiRefreshCw } from 'react-icons/fi';
 
 export const Blogs: React.FC = () => {
     const [formData, setFormData] = useState<BlogFormData>({
@@ -317,14 +318,18 @@ export const Blogs: React.FC = () => {
                         />
                     </div>
                 </div>
-                <Button variant='outline' onClick={handleRefresh}>
-                    <div className='flex items-center gap-2'>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                        <span>Clear Filters</span>
-                    </div>
-                </Button>
+
+                <div>
+                    <span className="block text-sm font-medium text-gray-700 mb-1">Clear Filters</span>
+                    <Button
+                        variant="outline"
+                        onClick={handleRefresh}
+                        disabled={blogLoading}
+                    >
+                        <FiRefreshCw className={`w-4 h-4 ${blogLoading ? 'animate-spin' : ''}`} />
+                        <span> Clear Filters</span>
+                    </Button>
+                </div>
             </div>
 
             <BlogGrid

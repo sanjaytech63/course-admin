@@ -25,7 +25,7 @@ export interface InputProps {
   | 'file'
   | 'credit-card';
   placeholder?: string;
-  value?: string;
+  value?: string | number;
   onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   error?: string;
@@ -35,6 +35,8 @@ export interface InputProps {
   name?: string;
   id?: string;
   accept?: string;
+  min?: number | string
+  max?: number | string
   helperText?: string;
   icon?: React.ReactNode;
   variant?: 'default' | 'filled' | 'outlined';
@@ -57,6 +59,8 @@ const InputField: React.FC<InputProps> = ({
   accept,
   helperText,
   icon,
+  min,
+  max,
   variant = 'default',
   size = 'md',
 }) => {
@@ -135,6 +139,8 @@ const InputField: React.FC<InputProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           required={required}
+          min={min}
+          max={max}
           className={`
             block w-full rounded-md
             ${sizes[size]}
