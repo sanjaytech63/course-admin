@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Mentorly Icon – Gradient Background with White M</title>
+
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5"></stop> <!-- indigo-600 -->
+      <stop offset="100%" stop-color="#9333ea"></stop> <!-- purple-600 -->
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded Square Gradient Background -->
+  <rect width="512" height="512" rx="64" fill="url(#bgGrad)"></rect>
+
+  <!-- Speech Bubble (light white overlay) -->
+  <path d="M96 192c0-88.22 71.78-160 160-160s160 71.78 160 160-71.78 160-160 160c-20.2 0-39.7-3.8-57.7-10.8L96 448V192z" fill="rgba(255,255,255,0.15)"></path>
+
+  <!-- Text M -->
+  <text x="50%" y="55%" text-anchor="middle" font-size="200" font-family="Poppins, Arial, sans-serif" font-weight="700" fill="#ffffff" dy=".35em">
+    M
+  </text>
+</svg>
