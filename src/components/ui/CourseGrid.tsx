@@ -1,9 +1,9 @@
-import React from 'react';
-import CourseCard from './CourseCard';
-import { EmptyState } from './EmptyState';
-import Loader from './Loader';
-import { ErrorState } from './ErrorState';
-import { CourseGridProps } from '../../types/course.types';
+import React from "react";
+import CourseCard from "./CourseCard";
+import { EmptyState } from "./EmptyState";
+import Loader from "./Loader";
+import { ErrorState } from "./ErrorState";
+import { CourseGridProps } from "../../types/course.types";
 
 const CourseGrid: React.FC<CourseGridProps> = ({
   courses,
@@ -12,7 +12,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({
   onView,
   loading,
   error,
-  onRetry
+  onRetry,
 }) => {
   if (loading) {
     return (
@@ -25,25 +25,16 @@ const CourseGrid: React.FC<CourseGridProps> = ({
   }
 
   if (error) {
-    return (
-      <ErrorState
-        onRetry={onRetry}
-        error={error}
-      />
-    );
+    return <ErrorState onRetry={onRetry} error={error} />;
   }
 
   if (!courses) {
-    return (
-      <EmptyState
-        title="No courses found"
-      />
-    );
+    return <EmptyState title="No courses found" />;
   }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-      {courses?.map(course => (
+      {courses?.map((course) => (
         <CourseCard
           key={course._id}
           course={course}

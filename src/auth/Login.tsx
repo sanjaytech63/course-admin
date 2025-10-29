@@ -1,27 +1,27 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import InputField from '../components/ui/InputField';
-import { BiLock, BiMailSend } from 'react-icons/bi';
-import Button from '../components/ui/Button';
-import { FiLogIn } from 'react-icons/fi';
-import { loginUserSchema } from '../validations/userValidation';
-import { handleError, handleSuccess } from '../utils/toastHandler';
-import { useAuthStore } from '../store/authStore';
-import { login } from '../api/authService';
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import InputField from "../components/ui/InputField";
+import { BiLock, BiMailSend } from "react-icons/bi";
+import Button from "../components/ui/Button";
+import { FiLogIn } from "react-icons/fi";
+import { loginUserSchema } from "../validations/userValidation";
+import { handleError, handleSuccess } from "../utils/toastHandler";
+import { useAuthStore } from "../store/authStore";
+import { login } from "../api/authService";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const { setUser, setTokens } = useAuthStore();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ email: "", password: "" });
 
   const handleChange = (field: string) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,16 +37,16 @@ const Login = () => {
       const accessToken = response.data.accessToken;
       const refreshToken = response.data.refreshToken;
 
-      setTokens(accessToken || '', refreshToken || '');
+      setTokens(accessToken || "", refreshToken || "");
       setUser(user);
 
       handleSuccess(response?.message);
 
-      setFormData({ email: '', password: '' });
-      setErrors({ email: '', password: '' });
-      navigate('/');
+      setFormData({ email: "", password: "" });
+      setErrors({ email: "", password: "" });
+      navigate("/");
     } catch (err) {
-      if (err instanceof Error && 'issues' in err) {
+      if (err instanceof Error && "issues" in err) {
         const zodError = err as any;
         const fieldErrors: any = {};
 
@@ -78,7 +78,7 @@ const Login = () => {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
+            Or{" "}
             <Link
               to="/register"
               className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
@@ -95,7 +95,7 @@ const Login = () => {
               label="Email address"
               placeholder="Enter your email"
               value={formData.email}
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
               error={errors.email}
               icon={<BiMailSend />}
             />
@@ -105,7 +105,7 @@ const Login = () => {
               label="Password"
               placeholder="Enter your password"
               value={formData.password}
-              onChange={handleChange('password')}
+              onChange={handleChange("password")}
               error={errors.password}
               icon={<BiLock />}
             />
@@ -119,7 +119,10 @@ const Login = () => {
                 type="checkbox"
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-900"
+              >
                 Remember me
               </label>
             </div>

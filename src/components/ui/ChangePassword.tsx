@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { handleError, handleSuccess } from '../../utils/toastHandler';
-import { changePassword } from '../../api/authService';
-import { Card } from './Card';
-import InputField from './InputField';
-import Button from './Button';
+import React, { useState } from "react";
+import { handleError, handleSuccess } from "../../utils/toastHandler";
+import { changePassword } from "../../api/authService";
+import { Card } from "./Card";
+import InputField from "./InputField";
+import Button from "./Button";
 
 const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setErrors] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
+  const [error, setErrors] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [formData, setFormData] = useState({
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const handleChange = (field: string) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,20 +31,20 @@ const ChangePassword = () => {
       const { oldPassword, newPassword } = formData;
 
       if (newPassword !== formData.confirmPassword) {
-        throw new Error('Passwords do not match');
+        throw new Error("Passwords do not match");
       }
 
       const res = await changePassword(oldPassword, newPassword);
 
       if (res.success) {
         handleSuccess(res.message);
-        setErrors({ oldPassword: '', newPassword: '', confirmPassword: '' });
-        setFormData({ oldPassword: '', newPassword: '', confirmPassword: '' });
+        setErrors({ oldPassword: "", newPassword: "", confirmPassword: "" });
+        setFormData({ oldPassword: "", newPassword: "", confirmPassword: "" });
       }
     } catch (err) {
-      console.log(err, 'error');
+      console.log(err, "error");
 
-      if (err instanceof Error && 'issues' in err) {
+      if (err instanceof Error && "issues" in err) {
         const zodError = err as any;
         const fieldErrors: any = {};
         zodError.issues.forEach((issue: any) => {
@@ -66,7 +70,7 @@ const ChangePassword = () => {
               type="password"
               name="oldPassword"
               value={formData?.oldPassword}
-              onChange={handleChange('oldPassword')}
+              onChange={handleChange("oldPassword")}
               error={error.oldPassword}
             />
           </div>
@@ -77,7 +81,7 @@ const ChangePassword = () => {
               type="password"
               name="newPassword"
               value={formData?.newPassword}
-              onChange={handleChange('newPassword')}
+              onChange={handleChange("newPassword")}
               error={error.newPassword}
             />
           </div>
@@ -88,7 +92,7 @@ const ChangePassword = () => {
               type="password"
               name="confirmPassword"
               value={formData?.confirmPassword}
-              onChange={handleChange('confirmPassword')}
+              onChange={handleChange("confirmPassword")}
               error={error.confirmPassword}
             />
           </div>

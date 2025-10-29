@@ -4,15 +4,15 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'instructor' | 'student';
-  status: 'active' | 'inactive';
+  role: "admin" | "instructor" | "student";
+  status: "active" | "inactive";
   avatar?: string;
   joinDate: string;
 }
 
 export interface UserFormData {
   fullName: string;
-  password: string,
+  password: string;
   email: string;
   userId?: string;
 }
@@ -31,7 +31,7 @@ export interface Course {
   category: string;
   price: number;
   thumbnail: string;
-  status: 'published' | 'draft' | 'archived';
+  status: "published" | "draft" | "archived";
   students: number;
   rating: number;
   createdAt: string;
@@ -44,7 +44,7 @@ export interface Blog {
   author: string;
   category: string;
   image?: string;
-  status: 'published' | 'draft';
+  status: "published" | "draft";
   createdAt: string;
 }
 
@@ -64,10 +64,9 @@ export interface SidebarState {
 export interface ModalState {
   isOpen: boolean;
   data: any;
-  openModal: (type: 'create' | 'edit' | 'delete', data?: any) => void;
+  openModal: (type: "create" | "edit" | "delete", data?: any) => void;
   closeModal: () => void;
 }
-
 
 export interface AppState extends SidebarState, ModalState {
   courses: Course[];

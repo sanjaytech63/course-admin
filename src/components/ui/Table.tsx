@@ -1,5 +1,5 @@
-import React from 'react';
-import { EmptyState } from './EmptyState';
+import React from "react";
+import { EmptyState } from "./EmptyState";
 
 export interface Column {
   key: string;
@@ -21,14 +21,15 @@ interface TableProps {
 export const Table: React.FC<TableProps> = ({
   columns,
   data,
-  className = '',
-  onSort
+  className = "",
+  onSort,
 }) => {
-
-  if (!data || data.length === 0) return <EmptyState />
+  if (!data || data.length === 0) return <EmptyState />;
 
   return (
-    <div className={`w-full overflow-hidden rounded-lg border border-gray-200 ${className}`}>
+    <div
+      className={`w-full overflow-hidden rounded-lg border border-gray-200 ${className}`}
+    >
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -37,8 +38,9 @@ export const Table: React.FC<TableProps> = ({
                 <th
                   key={column.key}
                   scope="col"
-                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${column.sortable ? 'cursor-pointer hover:bg-gray-100' : ''
-                    }`}
+                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                    column.sortable ? "cursor-pointer hover:bg-gray-100" : ""
+                  }`}
                   onClick={() => column.sortable && onSort?.(column.key)}
                   style={{ width: column.width }}
                 >
@@ -65,8 +67,7 @@ export const Table: React.FC<TableProps> = ({
                   >
                     {column.render
                       ? column.render(row[column.key], row)
-                      : row[column.key]
-                    }
+                      : row[column.key]}
                   </td>
                 ))}
               </tr>

@@ -1,26 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { BiMailSend } from 'react-icons/bi';
-import { updateAvatar, updateProfile } from '../../api/authService';
-import { FiSave } from 'react-icons/fi';
-import { updatePfofileSchema } from '../../validations/userValidation';
-import { handleError, handleSuccess } from '../../utils/toastHandler';
-import Loader from './Loader';
-import { Card } from './Card';
-import InputField from './InputField';
-import Button from './Button';
+import React, { useEffect, useRef, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { BiMailSend } from "react-icons/bi";
+import { updateAvatar, updateProfile } from "../../api/authService";
+import { FiSave } from "react-icons/fi";
+import { updatePfofileSchema } from "../../validations/userValidation";
+import { handleError, handleSuccess } from "../../utils/toastHandler";
+import Loader from "./Loader";
+import { Card } from "./Card";
+import InputField from "./InputField";
+import Button from "./Button";
 
 const Profile = () => {
   const { user, setUser } = useAuth();
-  const [formData, setFormData] = useState({ fullName: '', email: '' });
-  const [errors, setErrors] = useState({ fullName: '', email: '' });
+  const [formData, setFormData] = useState({ fullName: "", email: "" });
+  const [errors, setErrors] = useState({ fullName: "", email: "" });
   const [loading, setLoading] = useState(false);
   const [avatarLoading, setAvatarLoading] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (field: string) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,9 +34,9 @@ const Profile = () => {
       setUser(response?.data);
 
       handleSuccess(response?.message);
-      setErrors({ email: '', fullName: '' });
+      setErrors({ email: "", fullName: "" });
     } catch (err) {
-      if (err instanceof Error && 'issues' in err) {
+      if (err instanceof Error && "issues" in err) {
         const zodError = err as any;
         const fieldErrors: any = {};
         if (Array.isArray(zodError.issues)) {
@@ -55,7 +55,7 @@ const Profile = () => {
 
   const handleAvatarUpload = async (file: File) => {
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append("avatar", file);
 
     try {
       setAvatarLoading(true);
@@ -111,7 +111,9 @@ const Profile = () => {
           onChange={handleFileChange}
         />
 
-        <h2 className="mt-3 font-semibold text-gray-800 capitalize">{user?.fullName}</h2>
+        <h2 className="mt-3 font-semibold text-gray-800 capitalize">
+          {user?.fullName}
+        </h2>
         <p className="text-sm text-gray-500">{user?.email}</p>
       </div>
 
@@ -123,7 +125,7 @@ const Profile = () => {
             placeholder="Enter your full name"
             value={formData.fullName}
             name="fullName"
-            onChange={handleChange('fullName')}
+            onChange={handleChange("fullName")}
             error={errors.fullName}
             icon={<BiMailSend />}
           />
@@ -133,7 +135,7 @@ const Profile = () => {
             label="Email address"
             placeholder="Enter your email"
             value={formData.email}
-            onChange={handleChange('email')}
+            onChange={handleChange("email")}
             error={errors.email}
             icon={<BiMailSend />}
           />

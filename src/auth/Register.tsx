@@ -1,12 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import InputField from '../components/ui/InputField';
-import { BiLock, BiMailSend } from 'react-icons/bi';
-import Button from '../components/ui/Button';
-import { FiUserPlus } from 'react-icons/fi';
-import { handleError, handleSuccess } from '../utils/toastHandler';
-import { registerUserSchema } from '../validations/userValidation';
-import { register } from '../api/authService';
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import InputField from "../components/ui/InputField";
+import { BiLock, BiMailSend } from "react-icons/bi";
+import Button from "../components/ui/Button";
+import { FiUserPlus } from "react-icons/fi";
+import { handleError, handleSuccess } from "../utils/toastHandler";
+import { registerUserSchema } from "../validations/userValidation";
+import { register } from "../api/authService";
 
 export interface FormDataType {
   fullName: string;
@@ -17,16 +17,16 @@ export interface FormDataType {
 
 const Register = () => {
   const [formData, setFormData] = useState<FormDataType>({
-    fullName: '',
-    email: '',
-    password: '',
+    fullName: "",
+    email: "",
+    password: "",
     avatar: null,
   });
 
   const [errors, setErrors] = useState<FormDataType>({
-    fullName: '',
-    email: '',
-    password: '',
+    fullName: "",
+    email: "",
+    password: "",
     avatar: null,
   });
 
@@ -34,11 +34,12 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleChange =
-    (field: keyof FormDataType) => (value: string, e?: React.ChangeEvent<HTMLInputElement>) => {
-      if (field === 'avatar' && e?.target.files && e.target.files.length > 0) {
-        setFormData(prev => ({ ...prev, avatar: e.target.files![0] }));
+    (field: keyof FormDataType) =>
+    (value: string, e?: React.ChangeEvent<HTMLInputElement>) => {
+      if (field === "avatar" && e?.target.files && e.target.files.length > 0) {
+        setFormData((prev) => ({ ...prev, avatar: e.target.files![0] }));
       } else {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev) => ({ ...prev, [field]: value }));
       }
     };
 
@@ -53,38 +54,38 @@ const Register = () => {
       });
 
       if (!formData.avatar || formData.avatar.size === 0) {
-        handleError('Please upload an avatar');
+        handleError("Please upload an avatar");
         return;
       }
 
       setLoading(true);
 
       const data = new FormData();
-      data.append('fullName', validatedData.fullName);
-      data.append('email', validatedData.email);
-      data.append('password', validatedData.password);
-      data.append('avatar', formData.avatar);
+      data.append("fullName", validatedData.fullName);
+      data.append("email", validatedData.email);
+      data.append("password", validatedData.password);
+      data.append("avatar", formData.avatar);
 
       const res: any = await register(data);
       handleSuccess(res.message);
 
-      setFormData({ fullName: '', email: '', password: '', avatar: null });
-      setErrors({ fullName: '', email: '', password: '', avatar: null });
+      setFormData({ fullName: "", email: "", password: "", avatar: null });
+      setErrors({ fullName: "", email: "", password: "", avatar: null });
 
-      navigate('/login');
+      navigate("/login");
     } catch (err: any) {
-      if (err.name === 'ZodError') {
+      if (err.name === "ZodError") {
         const fieldErrors: any = {};
         if (Array.isArray(err.issues)) {
           err.issues.forEach((issue: any) => {
             if (issue.path?.[0]) fieldErrors[issue.path[0]] = issue.message;
           });
         }
-        setErrors(prev => ({ ...prev, ...fieldErrors }));
+        setErrors((prev) => ({ ...prev, ...fieldErrors }));
         return;
       }
 
-      handleError(err?.response?.data?.message || 'Registration failed');
+      handleError(err?.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -103,7 +104,7 @@ const Register = () => {
             Sign up to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
+            Or{" "}
             <Link
               to="/login"
               className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
@@ -121,7 +122,7 @@ const Register = () => {
               label="Full name"
               placeholder="Enter full name"
               value={formData.fullName}
-              onChange={handleChange('fullName')}
+              onChange={handleChange("fullName")}
               error={errors.fullName}
               icon={<BiMailSend />}
             />
@@ -132,7 +133,7 @@ const Register = () => {
               label="Email address"
               placeholder="Enter your email"
               value={formData.email}
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
               error={errors.email}
               icon={<BiMailSend />}
             />
@@ -142,7 +143,7 @@ const Register = () => {
               name="avatar"
               label="Avatar"
               accept="image/*"
-              onChange={handleChange('avatar')}
+              onChange={handleChange("avatar")}
             />
 
             <InputField
@@ -151,7 +152,7 @@ const Register = () => {
               label="Password"
               placeholder="Enter your password"
               value={formData.password}
-              onChange={handleChange('password')}
+              onChange={handleChange("password")}
               error={errors.password}
               icon={<BiLock />}
             />

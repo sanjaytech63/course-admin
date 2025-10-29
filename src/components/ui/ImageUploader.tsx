@@ -6,7 +6,10 @@ interface ImageUploaderProps {
   onChange?: (files: File[]) => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ label = "Upload Images", onChange }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  label = "Upload Images",
+  onChange,
+}) => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
 
@@ -41,7 +44,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ label = "Upload Images", 
         className="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer transition group hover:border-indigo-500"
         onClick={() => document.getElementById("fileInput")?.click()}
       >
-        <FiUpload className="text-gray-400 group-hover:text-indigo-600 mr-2" size={20} />
+        <FiUpload
+          className="text-gray-400 group-hover:text-indigo-600 mr-2"
+          size={20}
+        />
         <span className="text-gray-400 group-hover:text-indigo-600">
           Click to select images
         </span>
@@ -54,7 +60,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ label = "Upload Images", 
           className="hidden"
         />
       </div>
-
 
       {previews.length > 0 && (
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">

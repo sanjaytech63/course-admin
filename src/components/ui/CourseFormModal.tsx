@@ -1,12 +1,12 @@
-import React from 'react';
-import Modal from './Modal';
-import InputField from './InputField';
-import Button from './Button';
-import SelectField from './SelectField';
-import TextareaField from './TextareaField';
-import CheckboxField from './CheckboxField';
-import { CourseFormModalProps } from '../../types/course.types';
-import { badgeOptions, categoryOptions, levelOptions } from '../../constants';
+import React from "react";
+import Modal from "./Modal";
+import InputField from "./InputField";
+import Button from "./Button";
+import SelectField from "./SelectField";
+import TextareaField from "./TextareaField";
+import CheckboxField from "./CheckboxField";
+import { CourseFormModalProps } from "../../types/course.types";
+import { badgeOptions, categoryOptions, levelOptions } from "../../constants";
 
 const CourseFormModal: React.FC<CourseFormModalProps> = ({
   isOpen,
@@ -30,19 +30,22 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
     onChange(field)(value);
   };
 
-  console.log(errors,"errors");
-  
+  console.log(errors, "errors");
+
   return (
     <Modal
       isOpen={isOpen}
-      title={type === 'create' ? 'Create New Course' : 'Edit Course'}
+      title={type === "create" ? "Create New Course" : "Edit Course"}
       onClose={onClose}
       size="lg"
     >
-      <form onSubmit={onSubmit} className="space-y-6 max-h-[80vh] overflow-y-auto">
+      <form
+        onSubmit={onSubmit}
+        className="space-y-6 max-h-[80vh] overflow-y-auto"
+      >
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Course Image {type === 'create' ? '*' : ''}
+            Course Image {type === "create" ? "*" : ""}
           </label>
           <input
             type="file"
@@ -50,8 +53,10 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             onChange={handleFileInputChange}
             className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
           />
-          {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
-          {type === 'edit' && course?.image && (
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image}</p>
+          )}
+          {type === "edit" && course?.image && (
             <p className="text-sm text-gray-500 mt-1">
               Current image: {course.image}
             </p>
@@ -62,7 +67,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
           value={formData.title}
           label="Course Title *"
           placeholder="Enter course title"
-          onChange={onChange('title')}
+          onChange={onChange("title")}
           error={errors.title}
         />
 
@@ -70,7 +75,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
           value={formData.description}
           label="Description *"
           placeholder="Enter course description"
-          onChange={handleTextareaChange('description')}
+          onChange={handleTextareaChange("description")}
           rows={3}
           error={errors.description}
         />
@@ -80,20 +85,27 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             <SelectField
               label="Category *"
               value={formData.category}
-              options={[{ value: '', label: 'Select Category' }, ...categoryOptions]}
-              onChange={(value: string) => onSelectChange('category', value)}
+              options={[
+                { value: "", label: "Select Category" },
+                ...categoryOptions,
+              ]}
+              onChange={(value: string) => onSelectChange("category", value)}
             />
-            {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
+            {errors.category && (
+              <p className="text-red-500 text-sm mt-1">{errors.category}</p>
+            )}
           </div>
 
           <div>
             <SelectField
               label="Badge"
-              value={formData.badge || ''}
-              options={[{ value: '', label: 'No Badge' }, ...badgeOptions]}
-              onChange={(value: string) => onSelectChange('badge', value)}
+              value={formData.badge || ""}
+              options={[{ value: "", label: "No Badge" }, ...badgeOptions]}
+              onChange={(value: string) => onSelectChange("badge", value)}
             />
-            {errors.badge && <p className="text-red-500 text-sm mt-1">{errors.badge}</p>}
+            {errors.badge && (
+              <p className="text-red-500 text-sm mt-1">{errors.badge}</p>
+            )}
           </div>
         </div>
 
@@ -102,7 +114,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.instructor}
             label="Instructor *"
             placeholder="Instructor name"
-            onChange={onChange('instructor')}
+            onChange={onChange("instructor")}
             error={errors.instructor}
           />
 
@@ -110,7 +122,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             label="Difficulty Level *"
             value={formData.level}
             options={levelOptions}
-            onChange={(value: string) => onSelectChange('level', value)}
+            onChange={(value: string) => onSelectChange("level", value)}
             error={errors.level}
           />
         </div>
@@ -121,27 +133,27 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.originalPrice.toString()}
             label="Original Price *"
             placeholder="0.00"
-            onChange={onChange('originalPrice')}
+            onChange={onChange("originalPrice")}
             min="0"
             error={errors.originalPrice}
           />
 
           <InputField
             type="number"
-            value={formData.discountedPrice?.toString() || ''}
+            value={formData.discountedPrice?.toString() || ""}
             label="Discounted Price"
             placeholder="0.00"
-            onChange={onChange('discountedPrice')}
+            onChange={onChange("discountedPrice")}
             min="0"
             error={errors.discountedPrice}
           />
 
           <InputField
             type="number"
-            value={formData.discountPercentage?.toString() || ''}
+            value={formData.discountPercentage?.toString() || ""}
             label="Discount Percentage"
             placeholder="0"
-            onChange={onChange('discountPercentage')}
+            onChange={onChange("discountPercentage")}
             min="0"
             max="100"
             error={errors.discountPercentage}
@@ -153,7 +165,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.duration}
             label="Duration *"
             placeholder="e.g., 10 weeks, 30 hours"
-            onChange={onChange('duration')}
+            onChange={onChange("duration")}
             error={errors.duration}
           />
 
@@ -162,7 +174,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.totalHours.toString()}
             label="Total Hours"
             placeholder="0"
-            onChange={onChange('totalHours')}
+            onChange={onChange("totalHours")}
             min="0"
             error={errors.totalHours}
           />
@@ -172,7 +184,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.lectures.toString()}
             label="Number of Lectures"
             placeholder="0"
-            onChange={onChange('lectures')}
+            onChange={onChange("lectures")}
             min="0"
             error={errors.lectures}
           />
@@ -182,7 +194,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.students.toString()}
             label="Students Enrolled"
             placeholder="0"
-            onChange={onChange('students')}
+            onChange={onChange("students")}
             min="0"
             error={errors.students}
           />
@@ -194,7 +206,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.rating.toString()}
             label="Rating"
             placeholder="0.0 - 5.0"
-            onChange={onChange('rating')}
+            onChange={onChange("rating")}
             min="0"
             max="5"
             error={errors.rating}
@@ -205,7 +217,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.reviewCount.toString()}
             label="Review Count"
             placeholder="0"
-            onChange={onChange('reviewCount')}
+            onChange={onChange("reviewCount")}
             min="0"
             error={errors.reviewCount}
           />
@@ -213,10 +225,10 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputField
-            value={formData.icon || ''}
+            value={formData.icon || ""}
             label="Icon"
             placeholder="Icon name or URL"
-            onChange={onChange('icon')}
+            onChange={onChange("icon")}
             error={errors.icon}
           />
 
@@ -224,7 +236,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             value={formData.tags}
             label="Tags"
             placeholder="Enter tags separated by commas (e.g., javascript, react, web-development)"
-            onChange={onChange('tags')}
+            onChange={onChange("tags")}
             error={errors.tags}
           />
         </div>
@@ -233,13 +245,13 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
           <CheckboxField
             label="Featured Course"
             checked={formData.isFeatured}
-            onChange={(checked) => onChange('isFeatured')(checked)}
+            onChange={(checked) => onChange("isFeatured")(checked)}
           />
 
           <CheckboxField
             label="Active Course"
             checked={formData.isActive}
-            onChange={(checked) => onChange('isActive')(checked)}
+            onChange={(checked) => onChange("isActive")(checked)}
           />
         </div>
 
@@ -248,7 +260,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             Cancel
           </Button>
           <Button type="submit" isLoading={loading}>
-            {type === 'create' ? 'Create Course' : 'Update Course'}
+            {type === "create" ? "Create Course" : "Update Course"}
           </Button>
         </div>
       </form>

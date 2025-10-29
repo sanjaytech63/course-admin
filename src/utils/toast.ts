@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export const Success = (msg: string) => toast.success(msg);
 export const Error = (msg: string) => toast.error(msg);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
 export interface ModalProps {
@@ -6,7 +6,7 @@ export interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   closeOnOverlayClick?: boolean;
 }
 
@@ -15,17 +15,16 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
-  size = 'md',
+  size = "md",
   closeOnOverlayClick = true,
 }) => {
-
   if (!isOpen) return null;
 
   const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl',
+    sm: "max-w-md",
+    md: "max-w-lg",
+    lg: "max-w-2xl",
+    xl: "max-w-4xl",
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -39,15 +38,19 @@ const Modal: React.FC<ModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
       onClick={handleOverlayClick}
     >
-      <div className={`w-full ${sizeClasses[size]} bg-white rounded-lg shadow-xl`}>
+      <div
+        className={`w-full ${sizeClasses[size]} bg-white rounded-lg shadow-xl`}
+      >
         {(title || closeOnOverlayClick) && (
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            {title && <h2 className="text-xl font-semibold text-gray-800">{title}</h2>}
+            {title && (
+              <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+            )}
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
-              <IoCloseSharp size={20}/>
+              <IoCloseSharp size={20} />
             </button>
           </div>
         )}

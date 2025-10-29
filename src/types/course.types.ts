@@ -14,10 +14,10 @@ export interface Course {
   students: number;
   totalHours: number;
   lectures: number;
-  level: 'beginner' | 'intermediate' | 'advanced';
+  level: "beginner" | "intermediate" | "advanced";
   badge?: string;
   icon?: string;
-  iconType: 'default' | 'cloud' | 'code' | 'chart';
+  iconType: "default" | "cloud" | "code" | "chart";
   tags: string[];
   isFeatured: boolean;
   isActive: boolean;
@@ -39,10 +39,10 @@ export interface CourseFormData {
   students: number;
   totalHours: number;
   lectures: number;
-  level: 'beginner' | 'intermediate' | 'advanced';
+  level: "beginner" | "intermediate" | "advanced";
   badge?: string;
   icon?: string;
-  iconType: 'default' | 'cloud' | 'code' | 'chart';
+  iconType: "default" | "cloud" | "code" | "chart";
   tags: string;
   isFeatured: boolean;
   isActive: boolean;
@@ -60,12 +60,12 @@ export interface CourseFilters {
   maxPrice?: number;
   sort?: string;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 export interface CourseFormModalProps {
   isOpen: boolean;
-  type: 'create' | 'edit';
+  type: "create" | "edit";
   onClose: () => void;
   onSubmit: (e: React.FormEvent) => void;
   onChange: (field: string) => (value: any) => void;
@@ -78,7 +78,7 @@ export interface CourseFormModalProps {
   categoryOptions?: any;
   levelOptions?: any;
   badgeOptions?: any;
-  course?: Course
+  course?: Course;
 }
 
 export interface CourseCardProps {

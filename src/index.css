@@ -2,16 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
   }
 }
 
@@ -19,14 +18,15 @@
   .sidebar-transition {
     transition: all 0.3s ease-in-out;
   }
-  
+
   .card-hover {
     transition: all 0.2s ease-in-out;
   }
-  
+
   .card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 10px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 }
-
