@@ -70,9 +70,12 @@ const Login = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <div className="flex justify-center">
-            <div className="w-12 h-12 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">S</span>
-            </div>
+            <img
+              src="/logo.svg"
+              alt="Mentorly Logo"
+              className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 w-auto object-contain select-none"
+              loading="lazy"
+            />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account

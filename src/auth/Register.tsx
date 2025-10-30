@@ -35,13 +35,13 @@ const Register = () => {
 
   const handleChange =
     (field: keyof FormDataType) =>
-    (value: string, e?: React.ChangeEvent<HTMLInputElement>) => {
-      if (field === "avatar" && e?.target.files && e.target.files.length > 0) {
-        setFormData((prev) => ({ ...prev, avatar: e.target.files![0] }));
-      } else {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-      }
-    };
+      (value: string, e?: React.ChangeEvent<HTMLInputElement>) => {
+        if (field === "avatar" && e?.target.files && e.target.files.length > 0) {
+          setFormData((prev) => ({ ...prev, avatar: e.target.files![0] }));
+        } else {
+          setFormData((prev) => ({ ...prev, [field]: value }));
+        }
+      };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const Register = () => {
 
       setLoading(true);
 
-      const data = new FormData();
+      const data: any = new FormData();
       data.append("fullName", validatedData.fullName);
       data.append("email", validatedData.email);
       data.append("password", validatedData.password);
@@ -96,9 +96,12 @@ const Register = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <div className="flex justify-center">
-            <div className="w-12 h-12 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">S</span>
-            </div>
+            <img
+              src="/logo.svg"
+              alt="Mentorly Logo"
+              className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 w-auto object-contain select-none"
+              loading="lazy"
+            />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign up to your account
