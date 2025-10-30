@@ -20,7 +20,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  const handleChange = (field: string) => (value: string) => {
+  const handleChange = (field: string) => (value: string, e?: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 

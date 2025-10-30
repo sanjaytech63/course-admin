@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">Mentorly Logo – Gradient Circle Icon with White M</title>
+
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5"></stop> <!-- indigo-600 -->
+      <stop offset="100%" stop-color="#9333ea"></stop> <!-- purple-600 -->
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Gradient Icon -->
+  <g transform="translate(40,20)">
+    <circle cx="80" cy="80" r="80" fill="url(#mainGrad)"></circle>
+    <text x="47" y="110" font-family="Poppins, Inter, Arial, sans-serif" font-weight="700" font-size="90" fill="#ffffff">M</text>
+  </g>
+
+  <!-- Gradient Wordmark -->
+  <g transform="translate(240,80)">
+    <text x="0" y="40" font-family="Poppins, Inter, Arial, sans-serif" font-weight="700" font-size="64" fill="url(#mainGrad)">Mentorly</text>
+
+    <text x="0" y="80" font-family="Inter, Arial, sans-serif" font-weight="500" font-size="18" fill="url(#mainGrad)">Connect · Learn · Grow</text>
+  </g>
+</svg>

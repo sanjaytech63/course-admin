@@ -24,7 +24,7 @@ export const CourseManagement: React.FC<CourseManagementProps> = ({
       if (modalType === "create") {
         await createCourse(formData);
       } else if (selectedCourse) {
-        await updateCourse(selectedCourse.id, formData);
+        await updateCourse(selectedCourse._id, formData);
       }
       onSuccess();
       onClose();
