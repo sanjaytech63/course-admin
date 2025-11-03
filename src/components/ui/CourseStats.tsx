@@ -105,7 +105,7 @@ export const CourseStats: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-orange-600">
-                {overview.totalStudents.toLocaleString()}
+                {overview.totalStudents}
               </div>
               <div className="text-sm text-orange-800 font-medium">
                 Total Students
@@ -158,7 +158,7 @@ export const CourseStats: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-emerald-600">
-                ₹ {overview.totalRevenue.toLocaleString()}
+                ₹ {overview.totalRevenue}
               </div>
               <div className="text-sm text-emerald-800 font-medium">
                 Total Revenue
@@ -219,7 +219,7 @@ export const CourseStats: React.FC = () => {
             {overview.categoriesCount} categories
           </span>{" "}
           with {overview.totalCourses} total courses serving{" "}
-          {overview.totalStudents.toLocaleString()} students
+          {overview.totalStudents} students
         </div>
       </div>
     </div>
