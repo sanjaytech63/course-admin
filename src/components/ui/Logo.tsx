@@ -7,7 +7,7 @@ const Logo = () => {
       <img
         src="/logo.svg"
         alt="Mentorly Logo"
-        className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 w-auto object-contain select-none"
+        className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-10 w-auto object-contain select-none"
         loading="lazy"
       />
     </Link>
