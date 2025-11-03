@@ -26,7 +26,6 @@ import {
   itemsPerPageOptions,
   levelOptions,
 } from "../constants/index";
-import BlogViewModal from "../components/ui/BlogViewModa";
 import CourseViewModal from "../components/ui/CourseViewModal";
 
 export const Courses: React.FC = () => {
@@ -37,7 +36,7 @@ export const Courses: React.FC = () => {
     instructor: "",
     duration: "",
     originalPrice: 0,
-    discountedPrice: undefined,
+    discountedPrice: 0,
     discountPercentage: 0,
     rating: 0,
     reviewCount: 0,
@@ -52,6 +51,7 @@ export const Courses: React.FC = () => {
     isFeatured: false,
     isActive: true,
   });
+
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -231,6 +231,7 @@ export const Courses: React.FC = () => {
           submitData.append(key, value.toString());
         }
       });
+  console.log("Submitting course data:", formData);
 
       if (formData.tags) {
         const tagsArray = formData.tags
@@ -303,7 +304,7 @@ export const Courses: React.FC = () => {
       instructor: "",
       duration: "",
       originalPrice: 0,
-      discountedPrice: undefined,
+      discountedPrice: 0,
       discountPercentage: 0,
       rating: 0,
       reviewCount: 0,
@@ -324,6 +325,8 @@ export const Courses: React.FC = () => {
 
   useEffect(() => {
     if (type === "edit" && data) {
+      console.log(data,"data");
+      
       setFormData({
         title: data.title || "",
         description: data.description || "",

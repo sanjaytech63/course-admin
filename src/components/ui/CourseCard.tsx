@@ -24,8 +24,21 @@ const CourseCard: React.FC<CourseCardProps> = ({
   onDelete,
   onView,
 }) => {
-  const hasDiscount =
-    course.discountedPrice && course.discountedPrice < course.originalPrice;
+  // ✅ FIXED: Calculate discount percentage correctly
+  const calculateDiscountPercentage = () => {
+    if (course.discountedPrice && course.discountedPrice < course.originalPrice) {
+      return Math.round(((course.originalPrice - course.discountedPrice) / course.originalPrice) * 100);
+    }
+    return 0;
+  };
+
+  const discountPercentage = calculateDiscountPercentage();
+  const hasDiscount = discountPercentage > 0;
+
+  // ✅ FIXED: Validate prices to prevent impossible scenarios
+  const isValidPricing = course.discountedPrice 
+    ? course.discountedPrice < course.originalPrice
+    : true;
 
   return (
     <Card padding="md" className="h-full flex flex-col">
@@ -51,6 +64,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
           <div className="absolute top-3 right-3">
             <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-200">
               Featured
+            </span>
+          </div>
+        )}
+
+        {/* ✅ ADDED: Warning badge for invalid pricing */}
+        {!isValidPricing && (
+          <div className="absolute bottom-3 left-3">
+            <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 border border-red-200">
+              Invalid Pricing
             </span>
           </div>
         )}
@@ -120,22 +142,30 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
         )}
 
+        {/* ✅ FIXED: Pricing display with validation */}
         <div className="flex items-center space-x-2">
-          {hasDiscount ? (
+          {hasDiscount && isValidPricing ? (
             <>
               <span className="text-lg font-bold text-gray-900">
-                <span>₹</span> {course.discountedPrice}
+                ₹{course.discountedPrice?.toLocaleString()}
               </span>
               <span className="text-sm text-gray-500 line-through">
-                <span>₹</span> {course.originalPrice}
+                ₹{course.originalPrice.toLocaleString()}
               </span>
               <span className="text-xs font-semibold text-red-600 bg-red-100 px-2 py-1 rounded">
-                {course.discountPercentage}% OFF
+                {discountPercentage}% OFF
               </span>
             </>
+          ) : !isValidPricing ? (
+            // Show warning for invalid pricing
+            <div className="flex items-center space-x-2 text-orange-600 text-sm">
+              <span>⚠️ Price Error</span>
+              <span className="text-xs">₹{course.originalPrice.toLocaleString()}</span>
+            </div>
           ) : (
+            // Normal pricing without discount
             <span className="text-lg font-bold text-gray-900">
-              <span>₹</span> {course.originalPrice}
+              ₹{course.originalPrice.toLocaleString()}
             </span>
           )}
         </div>

@@ -127,7 +127,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputField
             type="number"
             value={formData.originalPrice.toString()}
@@ -146,17 +146,6 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             onChange={onChange("discountedPrice")}
             min="0"
             error={errors.discountedPrice}
-          />
-
-          <InputField
-            type="number"
-            value={formData.discountPercentage?.toString() || ""}
-            label="Discount Percentage"
-            placeholder="0"
-            onChange={onChange("discountPercentage")}
-            min="0"
-            max="100"
-            error={errors.discountPercentage}
           />
         </div>
 
@@ -200,7 +189,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputField
             type="number"
             value={formData.rating.toString()}
