@@ -126,7 +126,7 @@ export const CourseStats: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-yellow-600">
-                {overview.avgRating != null ? overview.avgRating.toFixed(1) : "N/A"}
+                {overview.avgRating != null ? overview.avgRating.toFixed(1) : "0"}
               </div>
               <div className="text-sm text-yellow-800 font-medium">
                 Avg Rating
@@ -142,7 +142,7 @@ export const CourseStats: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-indigo-600">
-                ₹ {overview.avgPrice != null ? overview.avgPrice.toFixed(2) : "N/A"}
+                ₹ {overview.avgPrice != null ? overview.avgPrice.toFixed(2) : "0"}
               </div>
               <div className="text-sm text-indigo-800 font-medium">
                 Avg Price
@@ -194,7 +194,7 @@ export const CourseStats: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-4 text-sm text-gray-600">
                   <span>{categoryStat.courseCount ?? 0} courses</span>
-                  <span>⭐ {categoryStat.avgRating != null ? categoryStat.avgRating.toFixed(1) : "N/A"}</span>
+                  <span>⭐ {categoryStat.avgRating != null ? categoryStat.avgRating.toFixed(1) : "0"}</span>
                   <span>👥 {categoryStat.totalStudents ?? 0}</span>
                   <span>💰 ₹ {categoryStat.avgPrice != null ? categoryStat.avgPrice.toFixed(2) : "0.00"}</span>
                 </div>
