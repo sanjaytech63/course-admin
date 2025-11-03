@@ -6,7 +6,7 @@ import axios, {
 import { useAuthStore } from "../store/authStore";
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/login/api/v1',
+  baseURL: 'https://mentorly-bakend.onrender.com/api/v1',
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
