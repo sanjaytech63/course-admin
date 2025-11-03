@@ -147,10 +147,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
           {hasDiscount && isValidPricing ? (
             <>
               <span className="text-lg font-bold text-gray-900">
-                ₹{course.discountedPrice?.toLocaleString()}
+                ₹{course.discountedPrice}
               </span>
               <span className="text-sm text-gray-500 line-through">
-                ₹{course.originalPrice.toLocaleString()}
+                ₹{course.originalPrice}
               </span>
               <span className="text-xs font-semibold text-red-600 bg-red-100 px-2 py-1 rounded">
                 {discountPercentage}% OFF
@@ -160,12 +160,12 @@ const CourseCard: React.FC<CourseCardProps> = ({
             // Show warning for invalid pricing
             <div className="flex items-center space-x-2 text-orange-600 text-sm">
               <span>⚠️ Price Error</span>
-              <span className="text-xs">₹{course.originalPrice.toLocaleString()}</span>
+              <span className="text-xs">₹{course.originalPrice}</span>
             </div>
           ) : (
             // Normal pricing without discount
             <span className="text-lg font-bold text-gray-900">
-              ₹{course.originalPrice.toLocaleString()}
+              ₹{course.originalPrice}
             </span>
           )}
         </div>
