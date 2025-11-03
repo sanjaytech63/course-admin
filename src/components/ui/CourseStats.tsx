@@ -126,7 +126,7 @@ export const CourseStats: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-yellow-600">
-                {overview.avgRating.toFixed(1)}
+                {overview.avgRating != null ? overview.avgRating.toFixed(1) : "N/A"}
               </div>
               <div className="text-sm text-yellow-800 font-medium">
                 Avg Rating
@@ -142,7 +142,7 @@ export const CourseStats: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-indigo-600">
-                ₹ {overview.avgPrice.toFixed(2)}
+                ₹ {overview.avgPrice != null ? overview.avgPrice.toFixed(2) : "N/A"}
               </div>
               <div className="text-sm text-indigo-800 font-medium">
                 Avg Price
@@ -178,7 +178,7 @@ export const CourseStats: React.FC = () => {
           Category Distribution
         </h3>
         <div className="space-y-3">
-          {byCategory.map((categoryStat, index) => {
+          {byCategory.map((categoryStat) => {
             const percentage =
               (categoryStat.courseCount / overview.totalCourses) * 100;
             return (
@@ -193,11 +193,12 @@ export const CourseStats: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center space-x-4 text-sm text-gray-600">
-                  <span>{categoryStat.courseCount} courses</span>
-                  <span>⭐ {categoryStat.avgRating.toFixed(1)}</span>
-                  <span>👥 {categoryStat.totalStudents}</span>
-                  <span>💰 ₹ {categoryStat.avgPrice.toFixed(2)}</span>
+                  <span>{categoryStat.courseCount ?? 0} courses</span>
+                  <span>⭐ {categoryStat.avgRating != null ? categoryStat.avgRating.toFixed(1) : "N/A"}</span>
+                  <span>👥 {categoryStat.totalStudents ?? 0}</span>
+                  <span>💰 ₹ {categoryStat.avgPrice != null ? categoryStat.avgPrice.toFixed(2) : "0.00"}</span>
                 </div>
+
                 <div className="w-24 bg-gray-200 rounded-full h-2 ml-4">
                   <div
                     className="bg-blue-500 h-2 rounded-full transition-all duration-500"
